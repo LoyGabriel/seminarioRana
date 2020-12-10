@@ -1,5 +1,8 @@
 package caballos;
 
+
+
+
 public class Main {
   public static void main(String[] args) {
     Caballo c1 = new Caballo(1);
@@ -14,15 +17,5 @@ public class Main {
     c4.start();
     c5.start();
 
-    /*
-    try{
-      c1.join();
-      c2.join();
-      c3.join();
-      c4.join();
-      c5.join();
-    } catch(InterruptedException e) {
-        System.out.println("Error");
-    }*/
   }
 }
