@@ -9,13 +9,11 @@ public class Rana extends Thread {
 	String nro;
 	int nroi;
 	boolean llegue = false;
-	boolean seEstaMoviendo = false;
-	boolean quieroMoverme = false;
+
     public Rana(String _nro,int _movimiento,int _nroi){
     	nro = _nro;
         movimiento=_movimiento;
-        nroi = _nroi;
-        
+        nroi = _nroi; 
     }
     
     public boolean estaEnRango(int numero) {
@@ -28,9 +26,12 @@ public class Rana extends Thread {
     	while(nro != "_" && !llegue) {
 			
     	try {
+    		
     		Main.semafono.acquire();
+    		
     		//Guardo donde esto
     		int posicion = Arrays.asList(Main.vector).indexOf(this);
+    		
     		//Caso donde podria salta un espacio
     		if( estaEnRango(posicion + movimiento) && Main.vector[posicion + movimiento].nro == "_") {
     			int posicionVacio = posicion + movimiento;
@@ -43,7 +44,9 @@ public class Rana extends Thread {
     				Main.vector[posicionVacio] = this;
     				Main.vector[posicion] = new Rana("_",0,0);
     				llegue = true;
+    				Main.intentos ++;
     			}
+    			
     			else if
     				(
     				(estaEnRango(posicionVacio+movimiento) &&   Main.vector[posicionVacio+movimiento].movimiento == movimiento) ||
@@ -63,7 +66,7 @@ public class Rana extends Thread {
     		
     		
     		//Caso podria saltar dos espacios 
-    		else if( estaEnRango(posicion + (2*movimiento))&&Main.vector[posicion + (2*movimiento)].nro == "_" ) {
+    		else if( estaEnRango(posicion + (2*movimiento)) && Main.vector[posicion + (2*movimiento)].nro == "_" ) {
     			int posicionVacio = posicion + (2*movimiento);
     			System.out.println("Soy la rana " + nro +" y puedo saltar 2 espacios");
     			
@@ -77,7 +80,7 @@ public class Rana extends Thread {
     			
     			//Caso donde no le conviene
     			else if(
-    			  (estaEnRango(posicionVacio+movimiento) &&  !(Math.abs(posicionVacio) - nroi == 4) && Main.vector[posicionVacio+movimiento].movimiento == movimiento) || 
+    			  (estaEnRango(posicionVacio+movimiento) && Main.vector[posicionVacio+movimiento].movimiento == movimiento) || 
     			  (estaEnRango(posicionVacio-movimiento) && Main.vector[posicionVacio-movimiento].movimiento == movimiento)) {
     				System.out.println("Pero no me conviene");
     			}
@@ -86,6 +89,7 @@ public class Rana extends Thread {
     				System.out.println("Y me conviene");
     				Main.vector[posicionVacio] = this;
     				Main.vector[posicion] = new Rana("_",0,0);
+    				Main.intentos ++;
     			}
     		}
     		//Caso donde no puede saltar
@@ -95,12 +99,13 @@ public class Rana extends Thread {
     		}
     		Main.mostrarPosiciones();
     		try{
-        		sleep(500);
+        		sleep(1000);
         	} catch(InterruptedException e) {
         		System.out.println("ERROR");
         	}
     		
     		Main.semafono.release();
+			/* System.out.println("Intentos: "+ Main.intentos ); */
     		System.out.println("------");
     		
     	}catch(InterruptedException e) {

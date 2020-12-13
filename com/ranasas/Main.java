@@ -7,14 +7,15 @@ public class Main {
 	
 	public static Rana[] vector= new Rana[7];
 	public static Semaphore semafono = new Semaphore(1);
+	public static int intentos = 0;
 	
 	public static void main(String[] args) {
-		Rana r1 = new Rana("1",1,0);
-    	Rana r2 = new Rana("2",1,1);
-    	Rana r3 = new Rana("3",1,2);
-    	Rana r4 = new Rana("4",-1,4);
-    	Rana r5 = new Rana("5",-1,5);
-    	Rana r6 = new Rana("6",-1,6);
+		Rana r1 = new Rana("R",1,0);
+    	Rana r2 = new Rana("R",1,1);
+    	Rana r3 = new Rana("R",1,2);
+    	Rana r4 = new Rana("S",-1,4);
+    	Rana r5 = new Rana("S",-1,5);
+    	Rana r6 = new Rana("S",-1,6);
     	Rana vacio = new Rana("_",0,0);
     	
     	vector[0] = r1;
@@ -32,7 +33,6 @@ public class Main {
         r5.start();
         r6.start();
         vacio.start();
-
 	}
 
 	public static void mostrarPosiciones() {
