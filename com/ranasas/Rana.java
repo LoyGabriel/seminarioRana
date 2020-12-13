@@ -39,7 +39,7 @@ public class Rana extends Thread {
     			int posicionVacio = posicion + movimiento;
     			System.out.println("Soy la rana " + caracterAMostrar +" y puedo saltar 1 espacio");
 
-    			//Caso donde no le conviene
+    			//Caso en cual saltaria a su posicion ganadora
     			if(Math.abs(posicionVacio - posicionInicial) == ((Main.vector.length + 1) / 2))
     			{	
     				moverse(posicionVacio, posicion);
@@ -47,6 +47,7 @@ public class Rana extends Thread {
     				llegue = true;
     			}
     			
+    			//Caso donde no le conviene
     			else if
     				(
     				(estaEnRango(posicionVacio+movimiento) &&   Main.vector[posicionVacio+movimiento].movimiento == movimiento) ||
@@ -55,18 +56,19 @@ public class Rana extends Thread {
     				){
     				System.out.println("Pero no me conviene");
     			}
-    			//Caso donde conviene
+    			//Caso donde le conviene
     			else {
     				System.out.println("Y me conviene");
     				moverse(posicionVacio, posicion);
     			}
     		}
 
-    		//Caso podria saltar dos espacios 
+    		//Caso donde podria saltar dos espacios 
     		else if( estaEnRango(posicion + (2*movimiento)) && Main.vector[posicion + (2*movimiento)].caracterAMostrar == "_" ) {
     			int posicionVacio = posicion + (2*movimiento);
     			System.out.println("Soy la rana " + caracterAMostrar +" y puedo saltar 2 espacios");
     			
+    			//Caso en cual saltaria a su posicion ganadora
     			if(Math.abs(posicionVacio - posicionInicial) == ((Main.vector.length+1) / 2))
     			{	
     				moverse(posicionVacio, posicion);
