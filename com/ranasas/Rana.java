@@ -35,8 +35,7 @@ public class Rana extends Thread {
     		if( estaEnRango(posicion + movimiento) && Main.vector[posicion + movimiento].nro == "_") {
     			int posicionVacio = posicion + movimiento;
     			System.out.println("Soy la rana " + nro +" y puedo saltar 1 espacio");
-    			
-    			System.out.println(Math.abs(posicionVacio - nroi));
+
     			//Caso donde no le conviene
     			if(Math.abs(posicionVacio - nroi) == 4)
     			{
@@ -67,8 +66,6 @@ public class Rana extends Thread {
     		else if( estaEnRango(posicion + (2*movimiento))&&Main.vector[posicion + (2*movimiento)].nro == "_" ) {
     			int posicionVacio = posicion + (2*movimiento);
     			System.out.println("Soy la rana " + nro +" y puedo saltar 2 espacios");
-    		
-    			System.out.println(Math.abs(posicionVacio - nroi));
     			
     			if(Math.abs(posicionVacio - nroi) == 4)
     			{
