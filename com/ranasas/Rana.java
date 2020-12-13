@@ -20,7 +20,7 @@ public class Rana extends Thread {
     }
 
     /**Ejecuta el cambio de posiciones entre la rana que salto y el lugar vacio*/
-    public void moverse(int aDonde, int desdeDonde) {
+    public void moverse(int desdeDonde, int aDonde) {
     	Main.intentos ++;
 		Main.vector[aDonde] = this;
 		Main.vector[desdeDonde] = new Rana("_",0,0);
@@ -32,49 +32,49 @@ public class Rana extends Thread {
     	try {
     		Main.semafono.acquire();
     		/**Guardo donde estoy*/
-    		int posicion = Arrays.asList(Main.vector).indexOf(this);
+    		int miPosicion = Arrays.asList(Main.vector).indexOf(this);
 
     		/**Caso donde podria salta un espacio*/
-    		if( this.puedeSaltarUnCasillero(posicion)) {
-    			int posicionVacio = posicion + movimiento;
+    		if(this.puedoSaltarUnCasilleroDesde(miPosicion)) {
+    			int dondeQuieroSaltar = miPosicion + movimiento;
     			System.out.println("Soy la rana " + caracterAMostrar +" y puedo saltar 1 espacio");
 
     			/**Caso en cual saltaria a su posicion ganadora*/
-    			if(this.llegaAPosicionGanadora(posicionVacio)){
-    				moverse(posicionVacio, posicion);
+    			if(this.esLaPosicionGanadora(dondeQuieroSaltar)){
+    				moverse(miPosicion, dondeQuieroSaltar);
 					print("Ya llegue");
     				llegue = true;
     			}
 				/**Caso donde no le conviene*/
-    			else if (this.convieneSaltar(posicionVacio, posicion)){
+    			else if (this.noLeConvieneSaltarUnaPosicion(dondeQuieroSaltar, miPosicion)){
 					print("Pero no me conviene");
     			}
 				/**Caso donde le conviene*/
     			else {
 					print("Y me conviene");
-    				moverse(posicionVacio, posicion);
+    				moverse(miPosicion,dondeQuieroSaltar);
     			}
     		}
 
     		//Caso donde podria saltar dos espacios 
-    		else if(puedeSaltarDosCasilleros(posicion)) {
-    			int posicionVacio = posicion + (2*movimiento);
+    		else if(puedeSaltarDosCasilleros(miPosicion)) {
+    			int dondeQuieroSaltar = miPosicion + (2*movimiento);
     			print("Soy la rana " + caracterAMostrar +" y puedo saltar 2 espacios");
     			
     			//Caso en cual saltaria a su posicion ganadora
-    			if(llegaAPosicionGanadora(posicionVacio)){
-    				moverse(posicionVacio, posicion);
+    			if(esLaPosicionGanadora(dondeQuieroSaltar)){
+    				moverse(miPosicion,dondeQuieroSaltar);
 					print("Ya llegue");
     				llegue = true;
     			}
     			//Caso donde no le conviene
-    			else if(convieneSaltarDos(posicionVacio)) {
+    			else if(noLeConvieneSaltarDos(dondeQuieroSaltar)) {
     				print("Pero no me conviene");
     			}
     			//Caso donde le conviene
       			else {
     				print("Y me conviene");
-    				moverse(posicionVacio, posicion);
+    				moverse(miPosicion,dondeQuieroSaltar);
     			}
     		}
     		//Caso donde no puede saltar
@@ -96,13 +96,16 @@ public class Rana extends Thread {
     	}
 	}
 
-	private boolean convieneSaltarDos(int posicionVacio) {
-    	return  (estaEnRango(posicionVacio+movimiento) && Main.vector[posicionVacio+movimiento].movimiento == movimiento) ||
-				(estaEnRango(posicionVacio-movimiento) && Main.vector[posicionVacio-movimiento].movimiento == movimiento);
-	}
 
-	private boolean puedeSaltarDosCasilleros(int posicion) {
-		return estaEnRango(posicion + (2*movimiento)) && Main.vector[posicion + (2*movimiento)].caracterAMostrar == "_";
+    //Dos casilleros
+	private boolean puedeSaltarDosCasilleros(int miPosicion) {
+		int dondeQuiereSaltar = miPosicion + (2*movimiento);
+		return estaEnRango(dondeQuiereSaltar) && Main.vector[dondeQuiereSaltar].caracterAMostrar == "_";
+	}
+	
+	private boolean noLeConvieneSaltarDos(int dondeQuieroSaltar) {
+    	return  (estaEnRango(dondeQuieroSaltar+movimiento) && Main.vector[dondeQuieroSaltar+movimiento].movimiento == movimiento) ||
+				(estaEnRango(dondeQuieroSaltar-movimiento) && Main.vector[dondeQuieroSaltar-movimiento].movimiento == movimiento);
 	}
 
 //TODO: completar la documentacion aca que no entendi esta validacion
@@ -111,20 +114,28 @@ public class Rana extends Thread {
 	 * O
 	 * verifica si esta en rango  y
 	 * */
-	private boolean convieneSaltar(int posicionVacio, int posicion) {
-		return (estaEnRango(posicionVacio+movimiento) && Main.vector[posicionVacio+movimiento].movimiento == movimiento)
-				|| (estaEnRango(posicionVacio+movimiento)
-				&& estaEnRango(posicion-movimiento)
-				&& Main.vector[posicionVacio+movimiento].movimiento == Main.vector[posicion-movimiento].movimiento);
+	
+	
+	//Un casillero
+	
+	private boolean puedoSaltarUnCasilleroDesde(int posicion){
+		int dondeQuiereSaltar = posicion + movimiento;
+		return estaEnRango(dondeQuiereSaltar) && Main.vector[dondeQuiereSaltar].caracterAMostrar == "_";
 	}
 
-	private boolean llegaAPosicionGanadora(int posicionVacio) {
-    	return Math.abs(posicionVacio - posicionInicial) == ((Main.vector.length + 1) / 2);
+	private boolean noLeConvieneSaltarUnaPosicion(int dondeQuieroSaltar, int miPosicion) {
+		return (estaEnRango(dondeQuieroSaltar+movimiento) && Main.vector[dondeQuieroSaltar+movimiento].movimiento == movimiento)
+				|| (estaEnRango(dondeQuieroSaltar+movimiento) && estaEnRango(miPosicion-movimiento)
+				&& Main.vector[dondeQuieroSaltar+movimiento].movimiento == Main.vector[miPosicion-movimiento].movimiento);
 	}
 
-	private boolean puedeSaltarUnCasillero(int posicion){
-		return estaEnRango(posicion + movimiento) && Main.vector[posicion + movimiento].caracterAMostrar == "_";
+	
+	private boolean esLaPosicionGanadora(int dondeQuieroSaltar) {
+		int saltosQueDi = Math.abs(dondeQuieroSaltar - posicionInicial);
+		int saltosQueTengoQueDar = (Main.vector.length + 1) / 2;
+    	return saltosQueDi == saltosQueTengoQueDar;
 	}
+
 
 	private void print(String mensaje){
     	System.out.println(mensaje);
