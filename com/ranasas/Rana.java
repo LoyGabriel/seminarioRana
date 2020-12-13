@@ -19,6 +19,7 @@ public class Rana extends Thread {
     }
     
     public void moverse(int aDonde, int desdeDonde) {
+    	Main.intentos ++;
 		Main.vector[aDonde] = this;
 		Main.vector[desdeDonde] = new Rana("_",0,0);
     }
@@ -97,7 +98,7 @@ public class Rana extends Thread {
         	} catch(InterruptedException e) {
         		System.out.println("ERROR");
         	}
-    		
+    		Main.intentosTotales++;
     		Main.semafono.release();
     		System.out.println("------");
     		

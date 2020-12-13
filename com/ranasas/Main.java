@@ -1,6 +1,4 @@
 package ranasas;
-import com.company.animales.*;
-import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 public class Main {
@@ -8,6 +6,7 @@ public class Main {
 	public static Rana[] vector= new Rana[9];
 	public static Semaphore semafono = new Semaphore(1);
 	public static int intentos = 0;
+	public static int intentosTotales = 0;
 	
 	public static void main(String[] args) {
 		Rana r1 = new Rana("1",1,0);
@@ -42,6 +41,9 @@ public class Main {
 	}
 
 	public static void mostrarPosiciones() {
+		/*
+		 * System.out.println(intentosTotales); System.out.println(intentos);
+		 */
 		System.out.println(
 				vector[0].nro + 
 				vector[1].nro + 
