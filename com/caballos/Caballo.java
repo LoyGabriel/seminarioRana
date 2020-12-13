@@ -1,4 +1,5 @@
 package caballos;
+
 public class Caballo extends Thread {
   int metrosRecorridos = 0;
   static boolean seguirCorriendo = true;
@@ -10,7 +11,7 @@ public class Caballo extends Thread {
     while (metrosRecorridos < 50 && seguirCorriendo) {
       metrosRecorridos++;
        System.out.println("Caballo " + nroCaballo + " metrosRecorridos " + metrosRecorridos);
-    
+
       try{
         sleep(100);
       } catch(InterruptedException e) {

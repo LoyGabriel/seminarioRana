@@ -4,7 +4,10 @@ package caballos;
 
 
 public class Main {
+	 public static int[] vector= new int[7];
   public static void main(String[] args) {
+	  
+	  
     Caballo c1 = new Caballo(1);
     Caballo c2 = new Caballo(2);
     Caballo c3 = new Caballo(3);
