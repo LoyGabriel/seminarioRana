@@ -4,15 +4,16 @@ import java.util.Arrays;
 
 public class Rana extends Thread {
 	int movimiento;
-	String nro;
-	int nroi;
+	String caracterAMostrar;
+	int posicionInicial;
 	boolean llegue = false;
 
-    public Rana(String _nro,int _movimiento,int _nroi){
-    	nro = _nro;
+    public Rana(String _caracter,int _movimiento,int _posicionInicial){
+    	caracterAMostrar = _caracter;
         movimiento=_movimiento;
-        nroi = _nroi; 
+        posicionInicial = _posicionInicial; 
     }
+    
     
     public boolean estaEnRango(int numero) {
     	return numero >= 0 && numero <= Main.vector.length - 1;
@@ -26,22 +27,20 @@ public class Rana extends Thread {
     
     
     public void run(){
-    	while(nro != "_" && !llegue) {
+    	while(caracterAMostrar != "_" && !llegue) {
 			
     	try {
-    		
     		Main.semafono.acquire();
-    		
     		//Guardo donde estoy
     		int posicion = Arrays.asList(Main.vector).indexOf(this);
     		
     		//Caso donde podria salta un espacio
-    		if( estaEnRango(posicion + movimiento) && Main.vector[posicion + movimiento].nro == "_") {
+    		if( estaEnRango(posicion + movimiento) && Main.vector[posicion + movimiento].caracterAMostrar == "_") {
     			int posicionVacio = posicion + movimiento;
-    			System.out.println("Soy la rana " + nro +" y puedo saltar 1 espacio");
+    			System.out.println("Soy la rana " + caracterAMostrar +" y puedo saltar 1 espacio");
 
     			//Caso donde no le conviene
-    			if(Math.abs(posicionVacio - nroi) == ((Main.vector.length + 1) / 2))
+    			if(Math.abs(posicionVacio - posicionInicial) == ((Main.vector.length + 1) / 2))
     			{	
     				moverse(posicionVacio, posicion);
     				System.out.println("Ya llegue");
@@ -64,11 +63,11 @@ public class Rana extends Thread {
     		}
 
     		//Caso podria saltar dos espacios 
-    		else if( estaEnRango(posicion + (2*movimiento)) && Main.vector[posicion + (2*movimiento)].nro == "_" ) {
+    		else if( estaEnRango(posicion + (2*movimiento)) && Main.vector[posicion + (2*movimiento)].caracterAMostrar == "_" ) {
     			int posicionVacio = posicion + (2*movimiento);
-    			System.out.println("Soy la rana " + nro +" y puedo saltar 2 espacios");
+    			System.out.println("Soy la rana " + caracterAMostrar +" y puedo saltar 2 espacios");
     			
-    			if(Math.abs(posicionVacio - nroi) == ((Main.vector.length+1) / 2))
+    			if(Math.abs(posicionVacio - posicionInicial) == ((Main.vector.length+1) / 2))
     			{	
     				moverse(posicionVacio, posicion);
     				System.out.println("Ya llegue");
@@ -89,12 +88,12 @@ public class Rana extends Thread {
     		}
     		//Caso donde no puede saltar
     		else {
-    			System.out.println("Soy la rana " + nro +" y no puedo saltar");
+    			System.out.println("Soy la rana " + caracterAMostrar +" y no puedo saltar");
     			
     		}
     		Main.mostrarPosiciones();
     		try{
-        		sleep(100);
+        		sleep(500);
         	} catch(InterruptedException e) {
         		System.out.println("ERROR");
         	}
@@ -102,10 +101,8 @@ public class Rana extends Thread {
     		Main.semafono.release();
     		System.out.println("------");
     		
-    	}catch(InterruptedException e) {
-    		
-    	}
-    	
+    		}catch(InterruptedException e) {}
+   
     	}
 	}
 }

@@ -5,8 +5,8 @@ public class Main {
 	
 	public static Rana[] vector= new Rana[9];
 	public static Semaphore semafono = new Semaphore(1);
-	public static int intentos = 0;
-	public static int intentosTotales = 0;
+	public static int intentos = 0; //Numero de saltos
+	public static int intentosTotales = 0; //Numeros de veces se entran a los threads
 	
 	public static void main(String[] args) {
 		Rana r1 = new Rana("1",1,0);
@@ -45,16 +45,17 @@ public class Main {
 		 * System.out.println(intentosTotales); System.out.println(intentos);
 		 */
 		System.out.println(
-				vector[0].nro + 
-				vector[1].nro + 
-				vector[2].nro + 
-				vector[3].nro + 
-				vector[4].nro + 
-				vector[5].nro +
-				vector[6].nro +
-				vector[7].nro +
-				vector[8].nro
+				vector[0].caracterAMostrar + 
+				vector[1].caracterAMostrar + 
+				vector[2].caracterAMostrar + 
+				vector[3].caracterAMostrar + 
+				vector[4].caracterAMostrar + 
+				vector[5].caracterAMostrar +
+				vector[6].caracterAMostrar +
+				vector[7].caracterAMostrar +
+				vector[8].caracterAMostrar
 				);
+		//Habria que checkear si todos llegaron e imprimir cuantos intentos e intentosTotales se hicieron
 	}
 
 }
