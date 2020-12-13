@@ -44,17 +44,9 @@ public class Main {
 		/*
 		 * System.out.println(intentosTotales); System.out.println(intentos);
 		 */
-		System.out.println(
-				vector[0].caracterAMostrar + " "+
-				vector[1].caracterAMostrar + " "+
-				vector[2].caracterAMostrar + " "+
-				vector[3].caracterAMostrar + " "+
-				vector[4].caracterAMostrar + " "+
-				vector[5].caracterAMostrar +" "+
-				vector[6].caracterAMostrar +" "+
-				vector[7].caracterAMostrar +" "+
-				vector[8].caracterAMostrar
-				);
+		for(int i=0; i<vector.length;i++){
+			System.out.print(	vector[i].caracterAMostrar + " ");
+		}
 		//Habria que checkear si todos llegaron e imprimir cuantos intentos e intentosTotales se hicieron
 	}
 

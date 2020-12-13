@@ -102,18 +102,18 @@ public class Rana extends Thread {
 		int dondeQuiereSaltar = miPosicion + (2*movimiento);
 		return estaEnRango(dondeQuiereSaltar) && Main.vector[dondeQuiereSaltar].caracterAMostrar == "_";
 	}
-	
+
+	/**Metodo clave en la logica, determina si puede saltar o no.
+	 * verifica si esta en rango (si una vez que salta va a seguir dentro del vector)y si en la siguiente posicion donde se encuentra uno del mismo tipo o distinto
+	 * O
+	 * verifica si esta en rango  y si lo que quiero saltar y tengo atras es del mismo tipo
+	 * */
 	private boolean noLeConvieneSaltarDos(int dondeQuieroSaltar) {
     	return  (estaEnRango(dondeQuieroSaltar+movimiento) && Main.vector[dondeQuieroSaltar+movimiento].movimiento == movimiento) ||
 				(estaEnRango(dondeQuieroSaltar-movimiento) && Main.vector[dondeQuieroSaltar-movimiento].movimiento == movimiento);
 	}
 
-//TODO: completar la documentacion aca que no entendi esta validacion
-	/**Metodo clave en la logica, determina si puede saltar o no.
-	 * verifica si esta en rango (si una vez que salta va a seguir dentro del vector)y si en la siguiente posicion donde se ubicara esta vacio o no
-	 * O
-	 * verifica si esta en rango  y
-	 * */
+
 	
 	
 	//Un casillero
@@ -123,6 +123,11 @@ public class Rana extends Thread {
 		return estaEnRango(dondeQuiereSaltar) && Main.vector[dondeQuiereSaltar].caracterAMostrar == "_";
 	}
 
+	/**Metodo clave en la logica, determina si puede saltar o no.
+	 * verifica si esta en rango (si una vez que salta va a seguir dentro del vector)y si en la siguiente posicion donde se encuentra uno del mismo tipo o distinto
+	 * O
+	 * verifica si esta en rango  y si lo que quiero saltar y tengo atras es del mismo tipo
+	 * */
 	private boolean noLeConvieneSaltarUnaPosicion(int dondeQuieroSaltar, int miPosicion) {
 		return estaEnRango(dondeQuieroSaltar+movimiento) && Main.vector[dondeQuieroSaltar+movimiento].movimiento == movimiento
 		          || (estaEnRango(miPosicion-movimiento) && Main.vector[dondeQuieroSaltar+movimiento].movimiento == Main.vector[miPosicion-movimiento].movimiento);
