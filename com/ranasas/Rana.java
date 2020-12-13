@@ -124,9 +124,8 @@ public class Rana extends Thread {
 	}
 
 	private boolean noLeConvieneSaltarUnaPosicion(int dondeQuieroSaltar, int miPosicion) {
-		return (estaEnRango(dondeQuieroSaltar+movimiento) && Main.vector[dondeQuieroSaltar+movimiento].movimiento == movimiento)
-				|| (estaEnRango(dondeQuieroSaltar+movimiento) && estaEnRango(miPosicion-movimiento)
-				&& Main.vector[dondeQuieroSaltar+movimiento].movimiento == Main.vector[miPosicion-movimiento].movimiento);
+		return estaEnRango(dondeQuieroSaltar+movimiento) && Main.vector[dondeQuieroSaltar+movimiento].movimiento == movimiento
+		          || (estaEnRango(miPosicion-movimiento) && Main.vector[dondeQuieroSaltar+movimiento].movimiento == Main.vector[miPosicion-movimiento].movimiento);
 	}
 
 	
