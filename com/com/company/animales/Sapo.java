@@ -26,13 +26,15 @@ public class Sapo extends Animal{
         return true;
     }
 
-    private boolean canJump(Animal[] vector) {
-        return super.positionInTheVector>0&&vector[super.positionInTheVector-1]==null;
+
+    @Override
+    public boolean canJump(Animal[] vector) {
+        return (super.positionInTheVector-1>0&&vector[super.positionInTheVector-1]==null);
     }
 
-    private boolean canJumpTwo(Animal[] vector) {
-        return super.positionInTheVector>1&&vector[super.positionInTheVector-2]==null
-                && !vector[super.positionInTheVector].isSapo();
+    @Override
+    public boolean canJumpTwo(Animal[] vector) {
+        return (super.positionInTheVector-2>1&&vector[super.positionInTheVector-2]==null);
     }
 
 }

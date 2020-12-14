@@ -19,31 +19,40 @@ public class Main {
         for(int i=0;i<3;i++){
             Rana rana=new Rana(i,"R"+(i+1));
             vector[i]= rana;
-            winVector[6-i]=rana;
         }
         vector[3]=null;
-        winVector[3]=null;
         for(int i=4;i<7;i++){
             Sapo sapo= new Sapo(i,"S"+k);
             vector[i]= sapo;
-            winVector[6-i]=sapo;
             k++;
         }
+        initializeWinVector();
+    }
+
+    private static void initializeWinVector() {
+        winVector[0]=vector[4];
+        winVector[1]=vector[5];
+        winVector[2]=vector[6];
+        winVector[3]=vector[3];
+        winVector[4]=vector[0];
+        winVector[5]=vector[1];
+        winVector[6]=vector[2];
     }
 
     public static void resolveGame(){
         int contadorDeVueltas=0;
-        while(vector!=winVector){
+        while(!hasWon()){
             boolean hasJumped=false;
             int random=getRandom();
             Animal aleatoryAnimal= vector[random];
             if(aleatoryAnimal!=null) {
                 int oldAnimalPosition = aleatoryAnimal.getPositionInTheVector();
-                hasJumped = aleatoryAnimal.jump(vector)>0;
+                hasJumped = aleatoryAnimal.jump(vector)!=0;
                 if (hasJumped) {
                     System.out.println("ANIMAL QUE SALTO: " + aleatoryAnimal.getName());
                     vector[aleatoryAnimal.getPositionInTheVector()] = aleatoryAnimal;
                     vector[oldAnimalPosition] = null;
+                    aleatoryAnimal.setJumpedAtLeastOneTime(true);
                 }
                 if(hasLost()){
                     initializeAll();
@@ -55,6 +64,15 @@ public class Main {
         System.out.println("CANTIDAD DE VUELTAS: "+contadorDeVueltas);
         System.out.println("SE HA RESUELTO EL JUEGO DE MANERA ALEATORIA");
         printVector(vector);
+    }
+
+    private static boolean hasWon() {
+        for(int i=0;i<winVector.length-1;i++){
+            if(!winVector[i].equals(vector[i])){
+                return false;
+            }
+        }
+        return true;
     }
 
 
@@ -72,12 +90,15 @@ public class Main {
         Random r = new Random();
         int low = 0;
         int high =7;
-        return r.nextInt(high-low) + low;
+        return r.nextInt(high);
     }
 
-    //TODO corregir para que funcione posta
     public static boolean hasLost(){
-        return (vector[0]==null&& !vector[1].isSapo())
-                || (vector[6]==null&& vector[5].isSapo());
+        for(Animal animal: vector){
+            if(animal!=null&&(animal.canJump(vector)||animal.canJumpTwo(vector))){
+                return false;
+            }
+        }
+        return true;
     }
 }
