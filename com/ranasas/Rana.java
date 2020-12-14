@@ -14,6 +14,7 @@ public class Rana extends Thread {
 		posicionInicial = _posicionInicial;
 	}
 
+	
 
 	public void run() {
 		while (caracterAMostrar != "_" && !llegue) {
