@@ -2,42 +2,25 @@ package ranasas;
 import java.util.concurrent.Semaphore;
 
 public class Main {
-	
-	public static Rana[] vector= new Rana[9];
-	public static Semaphore semafono = new Semaphore(1);
+	public static Semaphore semaforo = new Semaphore(1);
 	public static int intentos = 0; //Numero de saltos
 	public static int intentosTotales = 0; //Numeros de veces se entran a los threads
 	
+	public static Rana r1 = new Rana("R1>",1,0);
+	public static Rana r2 = new Rana("R2>",1,1);
+	public static Rana r3 = new Rana("R3>",1,2);
+	public static Rana r4 = new Rana("R4>",1,3);
+	public static Rana vacio = new Rana("_",0,0);
+	public static Rana r5 = new Rana("<S1",-1,5);
+	public static Rana r6 = new Rana("<S2",-1,6);
+	public static Rana r7 = new Rana("<S3",-1,7);
+	public static Rana r8 = new Rana("<S4",-1,8);
+	public static Rana[] vector= {r1,r2,r3,r4,vacio,r5,r6,r7,r8};
+	
 	public static void main(String[] args) {
-		Rana r1 = new Rana("R1>",1,0);
-    	Rana r2 = new Rana("R2>",1,1);
-    	Rana r3 = new Rana("R3>",1,2);
-    	Rana r4 = new Rana("R4>",1,3);
-    	Rana r5 = new Rana("<S1",-1,5);
-    	Rana r6 = new Rana("<S2",-1,6);
-    	Rana r7 = new Rana("<S3",-1,7);
-    	Rana r8 = new Rana("<S4",-1,8);
-    	Rana vacio = new Rana("_",0,0);
-    	
-    	vector[0] = r1;
-    	vector[1] = r2;
-    	vector[2] = r3;
-    	vector[3] = r4;
-    	vector[4] = vacio;
-    	vector[5] = r5;
-    	vector[6] = r6;
-    	vector[7] = r7;
-    	vector[8] = r8;
-
-    	r1.start();
-        r2.start();
-        r3.start();
-        r4.start();
-        r5.start();
-        r6.start();
-        r7.start();
-        r8.start();
-        vacio.start();
+		for(int i=0; i<vector.length;i++){
+			vector[i].start();
+		}
 	}
 
 	public static void mostrarPosiciones() {
