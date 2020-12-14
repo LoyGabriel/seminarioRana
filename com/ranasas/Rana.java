@@ -56,8 +56,10 @@ public class Rana extends Thread {
 				// Caso donde no puede saltar
 				else {
 					print("Soy la rana " + caracterAMostrar + " y no puedo saltar");
+					print("No salto");
 				}
 				Main.mostrarPosiciones();
+				/* clear(); */
 				pausa(500);
 				Main.semaforo.release();
 				print("\n------");
@@ -143,9 +145,13 @@ public class Rana extends Thread {
 
 	private void pausa(int milisegundos) {
 		try {
-			sleep(500);
+			sleep(milisegundos);
 		} catch (InterruptedException e) {
 			print("ERROR");
 		}
+	}
+	
+	private void clear() {
+		System.out.print("\n\n\n\n\n\n\n\n"); 
 	}
 }
