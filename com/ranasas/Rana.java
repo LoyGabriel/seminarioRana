@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 public class Rana extends Thread {
 	int movimiento;
-	String caracterAMostrar;
 	int posicionInicial;
 	boolean llegue = false;
+	String caracterAMostrar;
 
 	public Rana(String _caracter, int _movimiento, int _posicionInicial) {
 		caracterAMostrar = _caracter;
@@ -14,13 +14,12 @@ public class Rana extends Thread {
 		posicionInicial = _posicionInicial;
 	}
 
-	
-
 	public void run() {
 		while (caracterAMostrar != "_" && !llegue) {
 			try {
+				Main.intentos++;
 				Main.semaforo.acquire();
-				/** Guardo donde estoy */
+
 				int miPosicion = Arrays.asList(Main.vector).indexOf(this);
 
 				/** Caso donde podria salta un espacio */
@@ -36,7 +35,6 @@ public class Rana extends Thread {
 					else {
 						print("Y me conviene");
 						moverse(miPosicion, dondeQuieroSaltar);
-						comprobarSiLlegue(dondeQuieroSaltar);
 					}
 				}
 
@@ -53,7 +51,6 @@ public class Rana extends Thread {
 					else {
 						print("Y me conviene");
 						moverse(miPosicion, dondeQuieroSaltar);
-						comprobarSiLlegue(dondeQuieroSaltar);
 					}
 				}
 				// Caso donde no puede saltar
@@ -61,12 +58,7 @@ public class Rana extends Thread {
 					print("Soy la rana " + caracterAMostrar + " y no puedo saltar");
 				}
 				Main.mostrarPosiciones();
-				try {
-					sleep(500);
-				} catch (InterruptedException e) {
-					print("ERROR");
-				}
-				Main.intentosTotales++;
+				pausa(500);
 				Main.semaforo.release();
 				print("\n------");
 
@@ -74,28 +66,28 @@ public class Rana extends Thread {
 			}
 
 		}
+		llegue = true;
 	}
-	
+
 	// Un casillero
 
-		private boolean puedoSaltarUnCasilleroDesde(int posicion) {
-			int dondeQuiereSaltar = posicion + movimiento;
-			return estaEnRango(dondeQuiereSaltar) && Main.vector[dondeQuiereSaltar].caracterAMostrar == "_";
-		}
+	private boolean puedoSaltarUnCasilleroDesde(int posicion) {
+		int dondeQuiereSaltar = posicion + movimiento;
+		return estaEnRango(dondeQuiereSaltar) && Main.vector[dondeQuiereSaltar].caracterAMostrar == "_";
+	}
 
-		/**
-		 * Metodo clave en la logica, determina si puede saltar o no. verifica si esta
-		 * en rango (si una vez que salta va a seguir dentro del vector)y si en la
-		 * siguiente posicion donde se encuentra uno del mismo tipo o distinto O
-		 * verifica si esta en rango y si lo que quiero saltar y tengo atras es del
-		 * mismo tipo
-		 */
-		private boolean noLeConvieneSaltarUnaPosicion(int dondeQuieroSaltar, int miPosicion) {
-			return !esLaPosicionGanadora(dondeQuieroSaltar) && (estaEnRango(dondeQuieroSaltar + movimiento)
-					&& Main.vector[dondeQuieroSaltar + movimiento].movimiento == movimiento
-					|| (estaEnRango(miPosicion - movimiento) && Main.vector[dondeQuieroSaltar
-							+ movimiento].movimiento == Main.vector[miPosicion - movimiento].movimiento));
-		}
+	/**
+	 * Metodo clave en la logica, determina si puede saltar o no. verifica si esta
+	 * en rango (si una vez que salta va a seguir dentro del vector)y si en la
+	 * siguiente posicion donde se encuentra uno del mismo tipo o distinto O
+	 * verifica si esta en rango y si lo que quiero saltar y tengo atras es del
+	 * mismo tipo
+	 */
+	private boolean noLeConvieneSaltarUnaPosicion(int dondeQuieroSaltar, int miPosicion) {
+		return !esLaPosicionGanadora(dondeQuieroSaltar) && (estaEnRango(dondeQuieroSaltar + movimiento)
+				&& Main.vector[dondeQuieroSaltar + movimiento].movimiento == movimiento
+				|| (estaEnRango(miPosicion - movimiento) && Main.vector[dondeQuieroSaltar+ movimiento].movimiento == Main.vector[miPosicion - movimiento].movimiento));
+	}
 
 	// Dos casilleros
 	private boolean puedeSaltarDosCasilleros(int miPosicion) {
@@ -117,17 +109,14 @@ public class Rana extends Thread {
 						&& Main.vector[dondeQuieroSaltar - movimiento].movimiento == movimiento));
 	}
 
-	
-	//Otros
-	
-	
-	
+	// Otros
+
 	private boolean esLaPosicionGanadora(int dondeQuieroSaltar) {
 		int saltosQueDi = Math.abs(dondeQuieroSaltar - posicionInicial);
 		int saltosQueTengoQueDar = (Main.vector.length + 1) / 2;
 		return saltosQueDi == saltosQueTengoQueDar;
 	}
-	
+
 	/** Retorna si el valor esta dentro de la longitud del vector */
 	public boolean estaEnRango(int numero) {
 		return numero >= 0 && numero <= Main.vector.length - 1;
@@ -135,9 +124,10 @@ public class Rana extends Thread {
 
 	/** Ejecuta el cambio de posiciones entre la rana que salto y el lugar vacio */
 	public void moverse(int desdeDonde, int aDonde) {
-		Main.intentos++;
+		Main.saltos++;
 		Main.vector[aDonde] = this;
 		Main.vector[desdeDonde] = Main.vacio;
+		comprobarSiLlegue(aDonde);
 	}
 
 	public void comprobarSiLlegue(int miPosicion) {
@@ -149,5 +139,13 @@ public class Rana extends Thread {
 
 	private void print(String mensaje) {
 		System.out.println(mensaje);
+	}
+
+	private void pausa(int milisegundos) {
+		try {
+			sleep(500);
+		} catch (InterruptedException e) {
+			print("ERROR");
+		}
 	}
 }
