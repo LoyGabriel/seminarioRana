@@ -39,11 +39,12 @@ public class Main {
             Animal aleatoryAnimal= vector[random];
             if(aleatoryAnimal!=null) {
                 int oldAnimalPosition = aleatoryAnimal.getPositionInTheVector();
-                hasJumped = aleatoryAnimal.jump(vector)>0;
+                hasJumped = aleatoryAnimal.jump(vector)!=0;
                 if (hasJumped) {
                     System.out.println("ANIMAL QUE SALTO: " + aleatoryAnimal.getName());
                     vector[aleatoryAnimal.getPositionInTheVector()] = aleatoryAnimal;
                     vector[oldAnimalPosition] = null;
+                    aleatoryAnimal.setJumpedAtLeastOneTime(true);
                 }
                 if(hasLost()){
                     initializeAll();
@@ -72,12 +73,15 @@ public class Main {
         Random r = new Random();
         int low = 0;
         int high =7;
-        return r.nextInt(high-low) + low;
+        return r.nextInt(high);
     }
 
-    //TODO corregir para que funcione posta
     public static boolean hasLost(){
-        return (vector[0]==null&& !vector[1].isSapo())
-                || (vector[6]==null&& vector[5].isSapo());
+        for(Animal animal: vector){
+            if(animal!=null&&(animal.canJump(vector)||animal.canJumpTwo(vector))){
+                return false;
+            }
+        }
+        return true;
     }
 }

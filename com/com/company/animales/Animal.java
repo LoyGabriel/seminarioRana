@@ -4,6 +4,16 @@ public abstract class Animal {
     public String name;
     public int positionInTheVector;
 
+    public boolean isJumpedAtLeastOneTime() {
+        return jumpedAtLeastOneTime;
+    }
+
+    public void setJumpedAtLeastOneTime(boolean jumpedAtLeastOneTime) {
+        this.jumpedAtLeastOneTime = jumpedAtLeastOneTime;
+    }
+
+    public boolean jumpedAtLeastOneTime= false;
+
     public int getPositionInTheVector(){
         return this.positionInTheVector;
     }
@@ -22,5 +32,7 @@ public abstract class Animal {
     public abstract int jump(Animal[] vector);
 
     public abstract boolean isSapo();
+    public abstract boolean canJump(Animal[] vector);
+    public abstract boolean canJumpTwo(Animal[] vector);
 
 }

@@ -26,12 +26,13 @@ public class Rana extends Animal{
         return false;
     }
 
-    private boolean canJump(Animal[] vector) {
-        return super.positionInTheVector<6&&vector[super.positionInTheVector+1]==null;
+    @Override
+    public boolean canJump(Animal[] vector) {
+        return super.positionInTheVector+1<6&&vector[super.positionInTheVector+1]==null;
     }
+    @Override
 
-    private boolean canJumpTwo(Animal[] vector) {
-        return super.positionInTheVector<6&&vector[super.positionInTheVector+2]==null
-                && vector[super.positionInTheVector].isSapo();
+    public boolean canJumpTwo(Animal[] vector) {
+        return super.positionInTheVector+2<6&&vector[super.positionInTheVector+2]==null;
     }
 }
